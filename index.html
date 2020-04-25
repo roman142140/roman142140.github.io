@@ -1,0 +1,111 @@
+<div id=preloader style='display:none'>
+<div class=modal></div>
+</div>
+<style>
+
+</style>
+<script>
+preloader = document.querySelector('#preloader')
+loading = document.createElement('p')
+text = 'LOADING'
+for(i=0,n=text.length;i<n;i++){
+  ch = document.createElement('span')
+  ch.innerText = text[i]
+  ch.style.animationDelay=-n+i/n/4+'s'
+  loading.append(ch)
+}
+preloader.append(loading)
+</script>
+
+<!--
+ЗАКОНЧЕН САМЫЙ КРЕАТИВНЫЙ(АБСОЛЮТНОЕ ВРАНЬЁ ВЕСЬ КРЕАТИВ ДАЛЬШЕ) БЛОК ПРЕЛОАЛЕР
+
+
+
+НАЧАЛО БЛОКА СТАРТОВОГО ЭКРАНА
+ЛОГИН И РЕГИСТРАЦИЯ
+СДЕЛАТЬ ПЕРЕКЛЮЧЕНИЕ МЕЖДУ ВКЛАДКАМИ
+-->
+
+<div id=startPage>
+  <div class=background></div>
+
+  <div class=regPage style='display:none'>
+	<form>
+	<input type="email" placeholder=Email>
+	<input type="text" placeholder=Login>
+	<input type="password" placeholder=Password>
+	<input type="password" placeholder='Confirm password'>
+	<a href="#" onclick=showLog()>Войти</a>
+	<input type="button" value=Регистрация>
+	</form>  
+  </div>
+  
+  <div class=logPage style='display:none'>
+	<form>
+	<input type="text" placeholder='Email or login'>
+	<input type="password" placeholder=Password>
+	<a href="#" onclick=showReg()>Нет аккаунта?</a>
+	<input type="button" value=Войти>
+	</form>
+	
+	<script>
+	function showReg(){
+startPage.querySelector('.logPage').style.display='none'
+startPage.querySelector('.regPage').style.display='block'
+	}
+	function showLog(){
+startPage.querySelector('.regPage').style.display='none'
+startPage.querySelector('.logPage').style.display='block'
+	}
+	showLog()
+	</script>
+  </div>
+</div>
+
+<!--
+ЗАКОНЧЕН БЛОК СТРАНИЦЫ АВТОРИЗАЦИИ ТЯЖЁЛАЯ РАБОТА БЫЛА ПРОДЕЛАНА В СТИЛЯХ ГЛАВНОЕ В ДАЛЬНЕЙШЕМ НЕ НАПОРТАЧИТЬ
+
+ЗДЕСЬ НАДО РАЗМЕСТРИТЬ ФОРМУ С ВВОДОМ ОСНОВНЫХ ДАННЫХ
+-->
+
+
+
+
+<!--
+НАЧАЛО БЛОКА САМОГО ПРИЛОЖЕНИЯ ВОТ ГДЕ БУДЕТ САМАЯ ВЕСЕЛУХА НО ЭТО НЕ ТОЧНО
+-->
+
+<div id=mainPage>
+  <div class=topMenu></div>
+
+  <div class=news></div>
+  <div class=answers></div>
+  <div class=dialogs></div>
+  <div class=massages></div>
+  <div class=friends></div>
+  <div class=userPage></div>
+  <div class=myPage></div>
+  
+  <div class=botMenu></div>
+</div>
+
+
+
+<template id=dlog></template>
+
+<template id=imsg></template>
+
+<template id=omsg></template>
+
+<template id=note></template>
+
+<template id=answ></template>
+
+<template id=user></template>
+
+<template id=alrt></template>
+
+
+
+<div id=setting></div>

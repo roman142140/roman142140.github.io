@@ -1,0 +1,150 @@
+*{
+  margin: 0;
+  padding: 0;
+  font-family: helvetica
+}
+
+
+#preloader{
+  position: fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index: 999;
+}
+#preloader .modal{
+  position: absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background: rgba(0,50,100,0.7);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: -1;
+}
+#preloader p{
+  font-size: 30px;
+  font-family: helvetica;
+  text-align: center;
+  position: relative;
+  top: 35vh;
+}
+#preloader span{
+  animation: a 4s infinite
+}
+@keyframes a{
+  from{
+	filter: blur(0);
+	color: white
+  }to{
+	filter: blur(5px);
+	color: transparent
+  }
+}
+
+
+
+/*КОНЕЦ БЛОКА PRELOADER*/
+
+
+
+#startPage .background{
+  top: 0;left: 0;right: 0; bottom: 0;
+  position: fixed;
+  background: url('https://cs11-pikabu-ru.cdn.ampproject.org/ii/w820/s/cs11.pikabu.ru/post_img/2019/05/03/7/1556881811133014852.jpg');
+  background-size: cover;
+}
+
+#startPage input::-webkit-input-placeholder{
+  color: #fff
+}
+
+#startPage input{
+  display: inline-block;
+  -webkit-appearance: none;
+  margin: 5px;
+  padding: 0.7em;
+  width: calc(100% - 2em);
+  border-radius: 1000px;
+  text-align: center;
+  font-size: 1em;
+  border: none;
+  color: white;
+  background: linear-gradient(to right, rgba(255,255,255,0.6), rgba(255,255,255,0.2),
+rgba(255,255,255,0.6));
+  box-shadow: 0 5px 5px rgba(0,0,0,0.07)
+}
+
+#startPage form{
+  position: fixed;
+  text-align: center;
+  bottom: 0;
+  padding: 20px;
+  border-top: 1px solid rgba(255,255,255,0.3);
+  border-radius: 25px 25px 0 0;
+  animation: fadeInRight .3s;
+}
+#startPage .regPage form{
+  background-color: rgba(136, 204, 170,0.8);;
+  -webkit-backdrop-filter: blur(5px);
+  animation: fadeInRight .3s;
+}
+#startPage .logPage form{
+  background-color: rgba(170, 204, 255,0.8);
+  -webkit-backdrop-filter: blur(5px);
+  animation: fadeInLeft .3s;
+}
+#startPage .regPage input{
+  color: #476
+}
+#startPage .logPage input{
+  color: #469
+}
+
+#startPage input[type=button]{
+  text-transform: uppercase;
+  color: white;
+}
+
+#startPage .regPage form input[type=button]{
+  background: linear-gradient(to right bottom, #697,#467)
+}
+#startPage .logPage form input[type=button]{
+  background: linear-gradient(to right bottom, #47a,#469)
+}
+
+#startPage .regPage form a{
+  display: block;
+  margin: 10px;
+  color:#476;
+}
+#startPage .logPage form a{
+  display: block;
+  margin: 10px;
+  color:#469
+}
+
+@keyframes fadeInRight{
+  from{
+	transform: translate(100%);
+	opacity: 0;
+  }to{
+	transform: translate(0,0);
+	opacity: 1;
+  }
+}
+@keyframes fadeInLeft{
+  from{
+	transform: translate(-100%);
+	opacity: 0;
+  }to{
+	transform: translate(0,0);
+	opacity: 1;
+  }
+}
+
+
+/*КОНЕЦ БЛОКА STARTPAGE*/
+
+

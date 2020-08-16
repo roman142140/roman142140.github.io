@@ -1,150 +1,321 @@
-*{
-  margin: 0;
-  padding: 0;
-  font-family: helvetica
+	<body onload=init()>
+	<canvas class=c1></canvas>
+	<canvas class=c2></canvas>
+	
+	<div class='green-UI' id=gameUI>
+	  <div id=stat>
+		<span class=hp></span>
+		<span class=mp></span>
+		<span class=xp></span>
+	  </div>
+	  
+	  <div id=controller>
+	  </div><span></span>
+	  
+	  <div id=leftSideMenu>
+		<span class='btn lbtn0'
+		  ontouchstart='mashroom()'
+		  onclick='mashroom()'
+		  ></span>
+		<span class='btn lbtn1'></span>
+		<span class='btn lbtn2'></span>
+		<span class='btn lbtn3'
+		  ontouchstart='game.boost=true'
+		  ontouchend='game.boost=false'
+		  ></span>
+	  </div>
+	  
+	  <div id=rightSideMenu>
+		<span class='btn rbtn0'
+		  ontouchstart=changeWeapon(0)
+		  onclick=changeWeapon(0)
+		  ></span>
+		<span class='btn rbtn1'
+		  ontouchstart=changeWeapon(1)
+		  onclick=changeWeapon(1)
+		  ></span>
+		<span class='btn rbtn2'></span>
+		<span class='btn rbtn3'></span>
+	  </div>
+	 
+	</div>
+	
+	<div id=mashroom_img></div>
+	
+	<canvas class=c3></canvas>
+	<script>
+init = function(){
+if(window.ontouchstart !== null){
+  document.body.querySelector("#gameUI #controller").style.display = "none"
+  document.body.querySelector("#gameUI #controller~span").style.display = "none"
+}
+dpr = 3//devicePixelRatio
+pi = Math.PI
+pi2 = pi*2
+pid2 = pi/2
+
+c1 = document.querySelector('.c1')
+c2 = document.querySelector('.c2')
+c3 = document.querySelector('.c3')
+
+W = c1.width = c2.width = c3.width = innerWidth*dpr
+H = c1.height = c2.height = c3.height = innerHeight*dpr
+
+w = innerWidth
+h = innerHeight
+
+ctx = c1.getContext('2d')
+fx = c2.getContext('2d')
+mx = c3.getContext('2d')
+
+ctx.fillStyle = 'white'
+ctx.fillRect(0,0,W,H)
+
+game.mainColor=colors[gameUI.className.split('-')[0]]
+
+
+anim()
+}
+
+document.onkeydown = e=>{
+  if(e.code == "ArrowRight")game.ctrl.x = 90;
+  if(e.code == "ArrowLeft")game.ctrl.x = -90;
+  if(e.code == "ArrowUp")game.ctrl.shot = true;
+}
+document.onkeyup = e=>{
+  if(e.code == "ArrowRight")game.ctrl.x = 0;
+  if(e.code == "ArrowLeft")game.ctrl.x = 0;
+  if(e.code == "ArrowUp")game.ctrl.shot = false;
+}
+
+ctrl = document.querySelector('#controller')
+c = ctrl.nextSibling
+
+ctrl.ontouchstart = e=>{
+  x=e.changedTouches[0].clientX
+  y=e.changedTouches[0].clientY
+  
+  if(x<w/2-90){
+	x=w/2-90
+  }else if(x>w/2+90){
+	x=w/2+90
+  }else{
+	x=e.changedTouches[0].clientX
+  }
+  
+  if(y<h-110){
+	y=h-110
+  }else{
+	y=e.changedTouches[0].clientY
+  }
+  
+  if(y<h-85){
+	game.ctrl.shot = true
+	c.style.borderColor='#f80'
+	c.style.backgroundColor='#f80'
+  }else{
+	game.ctrl.shot = false
+	c.style.borderColor='#0ff'
+	c.style.backgroundColor='transparent'
+  }
+  
+  game.ctrl.x=x-w/2
+  
+  c.style.left = x+'px'
+  c.style.top = y+'px'
+}
+ctrl.ontouchmove = e=>{
+  c = ctrl.nextSibling
+  x=e.changedTouches[0].clientX
+  y=e.changedTouches[0].clientY
+  
+  if(x<w/2-90){
+	x=w/2-90
+  }else if(x>w/2+90){
+	x=w/2+90
+  }else{
+	x=e.changedTouches[0].clientX
+  }
+  
+  if(y<h-110){
+	y=h-110
+  }else{
+	y=e.changedTouches[0].clientY
+  }
+  
+  if(y<h-85){
+	game.ctrl.shot = true
+	c.style.borderColor='#f80'
+	c.style.backgroundColor='#f80'
+  }else{
+	game.ctrl.shot = false
+	c.style.borderColor='#0ff'
+	c.style.backgroundColor='transparent'
+  }
+  
+  game.ctrl.x=x-w/2
+  
+  c.style.left = x+'px'
+  c.style.top = y+'px'
+}
+ctrl.ontouchend = e=>{
+  c = ctrl.nextSibling
+  x=e.changedTouches[0].clientX
+  y=e.changedTouches[0].clientY
+  
+  if(x<w/2-110){
+	x=w/2-110
+  }else if(x>w/2+110){
+	x=w/2+110
+  }else{
+	x=e.changedTouches[0].clientX
+  }
+  
+  game.ctrl.shot = false
+  c.style.borderColor='#0ff'
+  c.style.backgroundColor='transparent'
+  
+  game.ctrl.x=0
+  
+  c.style.left = w/2+'px'
+  c.style.top = h-47+'px'
 }
 
 
-#preloader{
-  position: fixed;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-  z-index: 999;
-}
-#preloader .modal{
-  position: absolute;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-  background: rgba(0,50,100,0.7);
-  -webkit-backdrop-filter: blur(10px);
-  z-index: -1;
-}
-#preloader p{
-  font-size: 30px;
-  font-family: helvetica;
-  text-align: center;
-  position: relative;
-  top: 35vh;
-}
-#preloader span{
-  animation: a 4s infinite
-}
-@keyframes a{
-  from{
-	filter: blur(0);
-	color: white
-  }to{
-	filter: blur(5px);
-	color: transparent
+function drawShape(ctx,shape,x,y){
+  if(shape.type=='circle'){
+	ctx.beginPath()
+	ctx.arc(x,y,shape.radius,0,pi2)
+	ctx.closePath()
+	ctx.fill()
+	ctx.stroke()
+  }
+  
+  
+  
+  if(shape.type=='circleSegment'){
+	ctx.beginPath()
+	ctx.moveTo(x,y)
+	ctx.arc(x,y,shape.radius,shape.start,shape.end)
+	ctx.closePath()
+	ctx.fill()
+	ctx.stroke()
+  }
+  
+  
+  
+  if(shape.type=='rect'){
+	let r = Math.hypot(shape.width,shape.height) / 2,
+	dx = shape.width/2
+	dy = shape.height/2
+	
+	atan = Math.atan2(dy,dx)
+	
+	d = shape.direction
+	
+	ctx.beginPath()
+	ctx.moveTo(x+r*Math.cos(atan+d),y+r*Math.sin(atan+d))
+	ctx.lineTo(x+r*Math.cos(pi-atan+d),y+r*Math.sin(pi-atan+d))
+	ctx.lineTo(x+r*Math.cos(pi+atan+d),y+r*Math.sin(pi+atan+d))
+	ctx.lineTo(x+r*Math.cos(-atan+d),y+r*Math.sin(-atan+d))
+	ctx.closePath()
+	ctx.fill()
+	ctx.stroke()
+  }
+  
+  
+  
+  if(shape.type=='triangle'){
+	let r = Math.hypot(shape.width,shape.height) / 2,
+	dx = shape.width/2
+	dy = shape.height/2
+	
+	atan = Math.atan2(dy,dx)
+	
+	d = shape.direction
+	
+	ctx.beginPath()
+	ctx.moveTo(x+dx*Math.cos(d),y+dx*Math.sin(d))
+	ctx.lineTo(x+r*Math.cos(pi-atan+d),y+r*Math.sin(pi-atan+d))
+	ctx.lineTo(x+r*Math.cos(pi+atan+d),y+r*Math.sin(pi+atan+d))
+
+	ctx.closePath()
+	ctx.fill()
+	ctx.stroke()
+  }
+  
+  
+  
+  if(shape.type=='line'){
+	ctx.beginPath()
+	ctx.moveTo(x,y)
+	ctx.lineTo(
+x+shape.radius*Math.cos(shape.direction),
+y+shape.radius*Math.sin(shape.direction))
+	ctx.closePath()
+	ctx.stroke()
+  }
+  
+  
+  
+  if(shape.type=='star'){
+	ctx.beginPath()
+	ctx.moveTo(x+shape.maxr*Math.cos(shape.direction),
+y+shape.maxr*Math.sin(shape.direction))
+	for(let i = 0; i < shape.corns; i++){
+	
+	ctx.lineTo(
+x+shape.maxr*Math.cos(shape.direction+pi2/shape.corns*i),
+y+shape.maxr*Math.sin(shape.direction+pi2/shape.corns*i))
+	ctx.lineTo(
+x+shape.minr*Math.cos(shape.direction+pi2/shape.corns*i+pi/shape.corns),
+y+shape.minr*Math.sin(shape.direction+pi2/shape.corns*i+pi/shape.corns))
+	
+	
+	}
+	ctx.closePath()
+	ctx.fill()
+	ctx.stroke()
+  }
+  
+  
+  
+  if(shape.type=='polygon'){
+	ctx.beginPath()
+	ctx.moveTo(x+shape.radius*Math.cos(shape.direction),
+y+shape.radius*Math.sin(shape.direction))
+	for(let i = 0; i < shape.corns; i++){
+	
+	ctx.lineTo(
+x+shape.radius*Math.cos(shape.direction+pi2/shape.corns*i),
+y+shape.radius*Math.sin(shape.direction+pi2/shape.corns*i))
+	
+	}
+	ctx.closePath()
+	ctx.fill()
+	ctx.stroke()
   }
 }
 
-
-
-/*КОНЕЦ БЛОКА PRELOADER*/
-
-
-
-#startPage .background{
-  top: 0;left: 0;right: 0; bottom: 0;
-  position: fixed;
-  background: url('https://cs11-pikabu-ru.cdn.ampproject.org/ii/w820/s/cs11.pikabu.ru/post_img/2019/05/03/7/1556881811133014852.jpg');
-  background-size: cover;
+function mashroom(){
+  all = all.filter(a=>!(a instanceof Mashroom))
+  
+  mashroom_img.style.opacity = 0.002
+  document.body.style.animation =
+    'mashroom 30s linear'
+  mashroom_img.style.animation =
+    'scale 1s infinite'
+  game.mashroom = true
+  document.body.onanimationend = ()=>{
+	mashroom_img.style.opacity = 0
+	mashroom_img.style.animation = 'none'
+	document.body.style.animation = 'none'
+	game.mashroom = false
+}
 }
 
-#startPage input::-webkit-input-placeholder{
-  color: #fff
+function dist(x1,x2,y1,y2){
+  return Math.hypot(x1-x2,y1-y2)
 }
-
-#startPage input{
-  display: inline-block;
-  -webkit-appearance: none;
-  margin: 5px;
-  padding: 0.7em;
-  width: calc(100% - 2em);
-  border-radius: 1000px;
-  text-align: center;
-  font-size: 1em;
-  border: none;
-  color: white;
-  background: linear-gradient(to right, rgba(255,255,255,0.6), rgba(255,255,255,0.2),
-rgba(255,255,255,0.6));
-  box-shadow: 0 5px 5px rgba(0,0,0,0.07)
-}
-
-#startPage form{
-  position: fixed;
-  text-align: center;
-  bottom: 0;
-  padding: 20px;
-  border-top: 1px solid rgba(255,255,255,0.3);
-  border-radius: 25px 25px 0 0;
-  animation: fadeInRight .3s;
-}
-#startPage .regPage form{
-  background-color: rgba(136, 204, 170,0.8);;
-  -webkit-backdrop-filter: blur(5px);
-  animation: fadeInRight .3s;
-}
-#startPage .logPage form{
-  background-color: rgba(170, 204, 255,0.8);
-  -webkit-backdrop-filter: blur(5px);
-  animation: fadeInLeft .3s;
-}
-#startPage .regPage input{
-  color: #476
-}
-#startPage .logPage input{
-  color: #469
-}
-
-#startPage input[type=button]{
-  text-transform: uppercase;
-  color: white;
-}
-
-#startPage .regPage form input[type=button]{
-  background: linear-gradient(to right bottom, #697,#467)
-}
-#startPage .logPage form input[type=button]{
-  background: linear-gradient(to right bottom, #47a,#469)
-}
-
-#startPage .regPage form a{
-  display: block;
-  margin: 10px;
-  color:#476;
-}
-#startPage .logPage form a{
-  display: block;
-  margin: 10px;
-  color:#469
-}
-
-@keyframes fadeInRight{
-  from{
-	transform: translate(100%);
-	opacity: 0;
-  }to{
-	transform: translate(0,0);
-	opacity: 1;
-  }
-}
-@keyframes fadeInLeft{
-  from{
-	transform: translate(-100%);
-	opacity: 0;
-  }to{
-	transform: translate(0,0);
-	opacity: 1;
-  }
-}
-
-
-/*КОНЕЦ БЛОКА STARTPAGE*/
-
-
+	</script>
+	

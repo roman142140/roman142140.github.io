@@ -8,121 +8,326 @@
 <meta name="apple-mobile-web-app-status-barstyle" content="default">
 <meta name="apple-mobile-web-app-capable" content="yes">
 </head>
-<body>
-Hello
-<div id=preloader style='display:block'>
-<div class=modal></div>
-</div>
-<style>
-
-</style>
-<script>
-preloader = document.querySelector('#preloader')
-loading = document.createElement('p')
-text = 'LOADING'
-for(i=0,n=text.length;i<n;i++){
-  ch = document.createElement('span')
-  ch.innerText = text[i]
-  ch.style.animationDelay=-n+i/n/4+'s'
-  loading.append(ch)
-}
-preloader.append(loading)
-</script>
-
-<!--
-ЗАКОНЧЕН САМЫЙ КРЕАТИВНЫЙ(АБСОЛЮТНОЕ ВРАНЬЁ ВЕСЬ КРЕАТИВ ДАЛЬШЕ) БЛОК ПРЕЛОАЛЕР
-
-
-
-НАЧАЛО БЛОКА СТАРТОВОГО ЭКРАНА
-ЛОГИН И РЕГИСТРАЦИЯ
-СДЕЛАТЬ ПЕРЕКЛЮЧЕНИЕ МЕЖДУ ВКЛАДКАМИ
--->
-
-<div id=startPage>
-  <div class=background></div>
-
-  <div class=regPage style='display:none'>
-	<form>
-	<input type="email" placeholder=Email>
-	<input type="text" placeholder=Login>
-	<input type="password" placeholder=Password>
-	<input type="password" placeholder='Confirm password'>
-	<a href="#" onclick=showLog()>Войти</a>
-	<input type="button" value=Регистрация>
-	</form>  
-  </div>
-  
-  <div class=logPage style='display:none'>
-	<form>
-	<input type="text" placeholder='Email or login'>
-	<input type="password" placeholder=Password>
-	<a href="#" onclick=showReg()>Нет аккаунта?</a>
-	<input type="button" value=Войти>
-	</form>
+	<body onload=init()>
+	<canvas class=c1></canvas>
+	<canvas class=c2></canvas>
 	
+	<div class='green-UI' id=gameUI>
+	  <div id=stat>
+		<span class=hp></span>
+		<span class=mp></span>
+		<span class=xp></span>
+	  </div>
+	  
+	  <div id=controller>
+	  </div><span></span>
+	  
+	  <div id=leftSideMenu>
+		<span class='btn lbtn0'
+		  ontouchstart='mashroom()'
+		  onclick='mashroom()'
+		  ></span>
+		<span class='btn lbtn1'></span>
+		<span class='btn lbtn2'></span>
+		<span class='btn lbtn3'
+		  ontouchstart='game.boost=true'
+		  ontouchend='game.boost=false'
+		  ></span>
+	  </div>
+	  
+	  <div id=rightSideMenu>
+		<span class='btn rbtn0'
+		  ontouchstart=changeWeapon(0)
+		  onclick=changeWeapon(0)
+		  ></span>
+		<span class='btn rbtn1'
+		  ontouchstart=changeWeapon(1)
+		  onclick=changeWeapon(1)
+		  ></span>
+		<span class='btn rbtn2'></span>
+		<span class='btn rbtn3'></span>
+	  </div>
+	 
+	</div>
+	
+	<div id=mashroom_img></div>
+	
+	<canvas class=c3></canvas>
 	<script>
-	function showReg(){
-startPage.querySelector('.logPage').style.display='none'
-startPage.querySelector('.regPage').style.display='block'
-	}
-	function showLog(){
-startPage.querySelector('.regPage').style.display='none'
-startPage.querySelector('.logPage').style.display='block'
-	}
-	showLog()
-	</script>
-  </div>
-</div>
+init = function(){
+if(window.ontouchstart !== null){
+  document.body.querySelector("#gameUI #controller").style.display = "none"
+  document.body.querySelector("#gameUI #controller~span").style.display = "none"
+}
+dpr = 3//devicePixelRatio
+pi = Math.PI
+pi2 = pi*2
+pid2 = pi/2
 
-<!--
-ЗАКОНЧЕН БЛОК СТРАНИЦЫ АВТОРИЗАЦИИ ТЯЖЁЛАЯ РАБОТА БЫЛА ПРОДЕЛАНА В СТИЛЯХ ГЛАВНОЕ В ДАЛЬНЕЙШЕМ НЕ НАПОРТАЧИТЬ
+c1 = document.querySelector('.c1')
+c2 = document.querySelector('.c2')
+c3 = document.querySelector('.c3')
 
-ЗДЕСЬ НАДО РАЗМЕСТРИТЬ ФОРМУ С ВВОДОМ ОСНОВНЫХ ДАННЫХ
--->
+W = c1.width = c2.width = c3.width = innerWidth*dpr
+H = c1.height = c2.height = c3.height = innerHeight*dpr
+
+w = innerWidth
+h = innerHeight
+
+ctx = c1.getContext('2d')
+fx = c2.getContext('2d')
+mx = c3.getContext('2d')
+
+ctx.fillStyle = 'white'
+ctx.fillRect(0,0,W,H)
+
+game.mainColor=colors[gameUI.className.split('-')[0]]
 
 
+anim()
+}
 
+document.onkeydown = e=>{
+  if(e.code == "ArrowRight")game.ctrl.x = 90;
+  if(e.code == "ArrowLeft")game.ctrl.x = -90;
+  if(e.code == "ArrowUp")game.ctrl.shot = true;
+}
+document.onkeyup = e=>{
+  if(e.code == "ArrowRight")game.ctrl.x = 0;
+  if(e.code == "ArrowLeft")game.ctrl.x = 0;
+  if(e.code == "ArrowUp")game.ctrl.shot = false;
+}
 
-<!--
-НАЧАЛО БЛОКА САМОГО ПРИЛОЖЕНИЯ ВОТ ГДЕ БУДЕТ САМАЯ ВЕСЕЛУХА НО ЭТО НЕ ТОЧНО
--->
+ctrl = document.querySelector('#controller')
+c = ctrl.nextSibling
 
-<div id=mainPage>
-  <div class=topMenu></div>
-
-  <div class=news></div>
-  <div class=answers></div>
-  <div class=dialogs></div>
-  <div class=massages></div>
-  <div class=friends></div>
-  <div class=userPage></div>
-  <div class=myPage></div>
+ctrl.ontouchstart = e=>{
+  x=e.changedTouches[0].clientX
+  y=e.changedTouches[0].clientY
   
-  <div class=botMenu></div>
-</div>
+  if(x<w/2-90){
+	x=w/2-90
+  }else if(x>w/2+90){
+	x=w/2+90
+  }else{
+	x=e.changedTouches[0].clientX
+  }
+  
+  if(y<h-110){
+	y=h-110
+  }else{
+	y=e.changedTouches[0].clientY
+  }
+  
+  if(y<h-85){
+	game.ctrl.shot = true
+	c.style.borderColor='#f80'
+	c.style.backgroundColor='#f80'
+  }else{
+	game.ctrl.shot = false
+	c.style.borderColor='#0ff'
+	c.style.backgroundColor='transparent'
+  }
+  
+  game.ctrl.x=x-w/2
+  
+  c.style.left = x+'px'
+  c.style.top = y+'px'
+}
+ctrl.ontouchmove = e=>{
+  c = ctrl.nextSibling
+  x=e.changedTouches[0].clientX
+  y=e.changedTouches[0].clientY
+  
+  if(x<w/2-90){
+	x=w/2-90
+  }else if(x>w/2+90){
+	x=w/2+90
+  }else{
+	x=e.changedTouches[0].clientX
+  }
+  
+  if(y<h-110){
+	y=h-110
+  }else{
+	y=e.changedTouches[0].clientY
+  }
+  
+  if(y<h-85){
+	game.ctrl.shot = true
+	c.style.borderColor='#f80'
+	c.style.backgroundColor='#f80'
+  }else{
+	game.ctrl.shot = false
+	c.style.borderColor='#0ff'
+	c.style.backgroundColor='transparent'
+  }
+  
+  game.ctrl.x=x-w/2
+  
+  c.style.left = x+'px'
+  c.style.top = y+'px'
+}
+ctrl.ontouchend = e=>{
+  c = ctrl.nextSibling
+  x=e.changedTouches[0].clientX
+  y=e.changedTouches[0].clientY
+  
+  if(x<w/2-110){
+	x=w/2-110
+  }else if(x>w/2+110){
+	x=w/2+110
+  }else{
+	x=e.changedTouches[0].clientX
+  }
+  
+  game.ctrl.shot = false
+  c.style.borderColor='#0ff'
+  c.style.backgroundColor='transparent'
+  
+  game.ctrl.x=0
+  
+  c.style.left = w/2+'px'
+  c.style.top = h-47+'px'
+}
 
 
+function drawShape(ctx,shape,x,y){
+  if(shape.type=='circle'){
+	ctx.beginPath()
+	ctx.arc(x,y,shape.radius,0,pi2)
+	ctx.closePath()
+	ctx.fill()
+	ctx.stroke()
+  }
+  
+  
+  
+  if(shape.type=='circleSegment'){
+	ctx.beginPath()
+	ctx.moveTo(x,y)
+	ctx.arc(x,y,shape.radius,shape.start,shape.end)
+	ctx.closePath()
+	ctx.fill()
+	ctx.stroke()
+  }
+  
+  
+  
+  if(shape.type=='rect'){
+	let r = Math.hypot(shape.width,shape.height) / 2,
+	dx = shape.width/2
+	dy = shape.height/2
+	
+	atan = Math.atan2(dy,dx)
+	
+	d = shape.direction
+	
+	ctx.beginPath()
+	ctx.moveTo(x+r*Math.cos(atan+d),y+r*Math.sin(atan+d))
+	ctx.lineTo(x+r*Math.cos(pi-atan+d),y+r*Math.sin(pi-atan+d))
+	ctx.lineTo(x+r*Math.cos(pi+atan+d),y+r*Math.sin(pi+atan+d))
+	ctx.lineTo(x+r*Math.cos(-atan+d),y+r*Math.sin(-atan+d))
+	ctx.closePath()
+	ctx.fill()
+	ctx.stroke()
+  }
+  
+  
+  
+  if(shape.type=='triangle'){
+	let r = Math.hypot(shape.width,shape.height) / 2,
+	dx = shape.width/2
+	dy = shape.height/2
+	
+	atan = Math.atan2(dy,dx)
+	
+	d = shape.direction
+	
+	ctx.beginPath()
+	ctx.moveTo(x+dx*Math.cos(d),y+dx*Math.sin(d))
+	ctx.lineTo(x+r*Math.cos(pi-atan+d),y+r*Math.sin(pi-atan+d))
+	ctx.lineTo(x+r*Math.cos(pi+atan+d),y+r*Math.sin(pi+atan+d))
 
-<template id=dlog></template>
+	ctx.closePath()
+	ctx.fill()
+	ctx.stroke()
+  }
+  
+  
+  
+  if(shape.type=='line'){
+	ctx.beginPath()
+	ctx.moveTo(x,y)
+	ctx.lineTo(
+x+shape.radius*Math.cos(shape.direction),
+y+shape.radius*Math.sin(shape.direction))
+	ctx.closePath()
+	ctx.stroke()
+  }
+  
+  
+  
+  if(shape.type=='star'){
+	ctx.beginPath()
+	ctx.moveTo(x+shape.maxr*Math.cos(shape.direction),
+y+shape.maxr*Math.sin(shape.direction))
+	for(let i = 0; i < shape.corns; i++){
+	
+	ctx.lineTo(
+x+shape.maxr*Math.cos(shape.direction+pi2/shape.corns*i),
+y+shape.maxr*Math.sin(shape.direction+pi2/shape.corns*i))
+	ctx.lineTo(
+x+shape.minr*Math.cos(shape.direction+pi2/shape.corns*i+pi/shape.corns),
+y+shape.minr*Math.sin(shape.direction+pi2/shape.corns*i+pi/shape.corns))
+	
+	
+	}
+	ctx.closePath()
+	ctx.fill()
+	ctx.stroke()
+  }
+  
+  
+  
+  if(shape.type=='polygon'){
+	ctx.beginPath()
+	ctx.moveTo(x+shape.radius*Math.cos(shape.direction),
+y+shape.radius*Math.sin(shape.direction))
+	for(let i = 0; i < shape.corns; i++){
+	
+	ctx.lineTo(
+x+shape.radius*Math.cos(shape.direction+pi2/shape.corns*i),
+y+shape.radius*Math.sin(shape.direction+pi2/shape.corns*i))
+	
+	}
+	ctx.closePath()
+	ctx.fill()
+	ctx.stroke()
+  }
+}
 
-<template id=imsg></template>
+function mashroom(){
+  all = all.filter(a=>!(a instanceof Mashroom))
+  
+  mashroom_img.style.opacity = 0.002
+  document.body.style.animation =
+    'mashroom 30s linear'
+  mashroom_img.style.animation =
+    'scale 1s infinite'
+  game.mashroom = true
+  document.body.onanimationend = ()=>{
+	mashroom_img.style.opacity = 0
+	mashroom_img.style.animation = 'none'
+	document.body.style.animation = 'none'
+	game.mashroom = false
+}
+}
 
-<template id=omsg></template>
-
-<template id=note></template>
-
-<template id=answ></template>
-
-<template id=user></template>
-
-<template id=alrt></template>
-
-
-
-<div id=setting></div>
-
-
+function dist(x1,x2,y1,y2){
+  return Math.hypot(x1-x2,y1-y2)
+}
+	</script>
 <script src='script.js'></script>
 </body>
 </html>

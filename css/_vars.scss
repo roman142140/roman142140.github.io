@@ -1,0 +1,80 @@
+$color_blue: #005BFF;
+// $color_blue_50: #ACAFF3;
+// $color_blue_25: #D6D7F9;
+// $color_blue_10: #EFEFFD;
+// $color_red: #FF795B;
+// $color_cyan: #86E3CE;
+// $color_purple: #C274FF;
+// $color_orange: #FFA95A;
+
+$color_white: #ffffff;
+$color_gray_light: #F5F6FB;
+$color_gray: #C8C8C8;
+$color_black: #001A34;
+
+// $gradient_blue_tr: linear-gradient(238.37deg, rgba(90, 96, 231, 0.35) 6.34%, rgba(30, 30, 40, 0) 103.77%), #2C2C2C;
+// $shadow_small: 0px 2px 4px #E9E9E9;
+$shadow: 0px 0px 24px 0px #005BFF26;
+
+
+$color_primary: $color_blue;
+$color_primary_hover: lighten($color_primary, 10%);
+$color_primary_active: darken($color_primary, 10%);
+
+// $color_red_hover: lighten($color_red, 10%);
+// $color_red_active: darken($color_red, 10%);
+
+// $color_border: $color_primary;
+
+$color_selection_text: white;
+$color_selection_bg: $color_primary;
+
+$color_placeholder: $color_gray;
+
+$color_bg: $color-white;
+$radius: 16px;
+
+$header_height: 100px;
+$header_height_mob: 80px;
+
+$container_width: 1360px;
+
+$desc: 1024px;
+$desc_min: 1025px;
+$desc-small: 960px;
+$desc-small_min: 961px;
+
+$tablet: 768px;
+$tablet_min: 769px;
+$mobile: 550px;
+$mobile_min: 551px;
+
+$font: 'GT Eesti Pro Display', 'Helvetica', sans-serif;
+
+@mixin scrollWithoutScroll() {
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+    }
+}
+@mixin scrollWithoutScrollHorizontal() {
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    scrollbar-height: none;
+    &::-webkit-scrollbar {
+        height: 0px;
+        background: transparent;
+    }
+}
+@mixin transition() {
+    transition: 0.2s;
+    &:hover {
+        transition: 0.05s;
+    }
+    &:hover {
+        transition: 0.02s;
+    }
+}

@@ -1,0 +1,258 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+*:focus {
+    outline: none;
+}
+*::-moz-selection {
+    color: $color_selection_text;
+    background: $color_selection_bg;
+}
+*::selection {
+    color: $color_selection_text;
+    background: $color_selection_bg;
+}
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+input::-moz-placeholder {
+    color: $color_placeholder;
+}
+input::-webkit-input-placeholder {
+    color: $color_placeholder;
+}
+input:-ms-input-placeholder {
+    color: $color_placeholder;
+}
+input::-ms-input-placeholder {
+    color: $color_placeholder;
+}
+input::placeholder {
+    color: $color_placeholder;
+}
+input {
+    -webkit-appearance: none;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+textarea,
+input {
+    font-family: $font;
+    font-size: 14px;
+    line-height: 14px;
+}
+
+html {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+div {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+section {
+    position: relative;
+    // z-index: 20;
+}
+body {
+    font-size: 16px;
+    font-family: $font;
+    line-height: 1.2;
+    // line-height: 110%;
+    min-width: 320px;
+    color: $color_black;
+    background-color: $color_bg;
+    touch-action: pan-x pan-y;
+    scroll-behavior: smooth;
+    & > #__site_wrapper {
+        overflow: hidden;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+main {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding-top: $header_height;
+    transition: 0.2s;
+    @media (max-width: 768px) {
+        padding-top: $header_height_mob;
+    }
+}
+.container {
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 100%;
+    max-width: $container_width;
+    margin: 0 auto;
+    @media (max-width: 768px) {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: $color_primary;
+    transition: 0.2s;
+    &:focus,
+    &:hover {
+        opacity: 0.8;
+    }
+    &.__self {
+        // display: inline;
+        border-bottom: 1px dashed $color_primary;
+    }
+}
+h1,.h1{
+    font-size: 120px;
+    line-height: 1;
+    font-weight: 700;
+    @media (max-width: $desc) {
+        font-size: 64px;
+    }
+    @media (max-width: $mobile) {
+        font-size: 40px;
+    }
+}
+h2,.h2{
+    font-size: 64px;
+    line-height: 1;
+    font-weight: 700;
+    @media (max-width: $desc) {
+        font-size: 40px;
+    }
+    @media (max-width: $mobile) {
+        font-size: 32px;
+    }
+}
+h3,.h3{
+    font-size: 32px;
+    line-height: 1;
+    font-weight: 700;
+    @media (max-width: 1366px) {
+        font-size: 24px;
+    }
+    @media (max-width: $mobile) {
+        font-size: 20px;
+    }
+}
+
+
+.card{
+    min-width: 180px;
+    min-height: 150px;
+    border-radius: $radius;
+    background: $color_gray_light;
+    color: $color-black;
+
+    @include transition();
+    overflow: hidden;
+
+    
+
+    &>img{
+        width: 100%;
+    }
+    .card__body {
+        margin: 24px;
+        display: flex;
+        flex-direction: column;
+    }
+    .card__header {
+        display: flex;
+        margin: 0 -12px;
+        margin-bottom: 24px;
+        @include transition();
+        *{
+            margin: 0 12px;
+            line-height: 1.2;
+            align-self: start;
+            @include transition();
+            
+        }
+        img{
+            width: 80px;
+            height: 80px;
+        }
+    }
+    .card__content {
+        margin-top: 24px;
+    }
+    @media (max-width: $desc) {
+
+        .card__body {
+            margin: 16px;
+        }
+        .card__header {
+            *{
+            }
+            img{
+                width: 64px;
+                height: 64px;
+            }
+        }
+        .card__content {
+        }
+    }
+    @media (max-width: $mobile) {
+
+        .card__body {
+        }
+        .card__header {
+            margin-left: -4px;
+            margin-right: -4px;
+            *{
+                margin: 0 4px;
+            }
+            img{
+                width: 48px;
+                height: 48px;
+            }
+        }
+        .card__content {
+        }
+    }
+}
+[class*='__placeholder']{
+    animation: blink 4s infinite;
+    border-radius: 5px;
+    background: #ccc !important;
+    @keyframes blink {
+        from{
+            opacity: 1;            
+        }50%{
+            opacity: 0.3;
+        }to{
+            opacity: 1;
+        }
+    }
+}
+
+.--align-self-end{
+    align-self: flex-end;
+}

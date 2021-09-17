@@ -1,333 +1,457 @@
-<!DOCTYPE html>
 <html>
-<head>
-<link rel="apple-touch-icon" sizes="120x120" type="image/jpeg" href="/3142F93F-CC60-40A8-9BFF-42C34FC7D657.jpeg">
-<title>hello world</title>
-<link rel='stylesheet' type='text/css' href='/style.css'>
-<meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
-<meta name="apple-mobile-web-app-status-barstyle" content="default">
-<meta name="apple-mobile-web-app-capable" content="yes">
+
+<head lang="ru">
+    <title>OZON Index</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="theme-color" content="#ffffff">
+    <link rel="icon" href="favicon.ico">
+
+    <meta name="viewport" id="mainViewport"
+        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, shrink-to-fit=no">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/owl.carousel.min.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="css/owl.carousel.min.css">
+    <link type="text/css" rel="stylesheet" href="css/owl.theme.default.css">
+    <link type="text/css" rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="js/charts.js"></script>
 </head>
-	<body onload=init()>
-	<canvas class=c1></canvas>
-	<canvas class=c2></canvas>
-	
-	<div class='green-UI' id=gameUI>
-	  <div id=stat>
-		<span class=hp></span>
-		<span class=mp></span>
-		<span class=xp></span>
-	  </div>
-	  
-	  <div id=controller>
-	  </div><span></span>
-	  
-	  <div id=leftSideMenu>
-		<span class='btn lbtn0'
-		  ontouchstart='mashroom()'
-		  onclick='mashroom()'
-		  ></span>
-		<span class='btn lbtn1'></span>
-		<span class='btn lbtn2'></span>
-		<span class='btn lbtn3'
-		  ontouchstart='game.boost=true'
-		  ontouchend='game.boost=false'
-		  ></span>
-	  </div>
-	  
-	  <div id=rightSideMenu>
-		<span class='btn rbtn0'
-		  ontouchstart=changeWeapon(0)
-		  onclick=changeWeapon(0)
-		  ></span>
-		<span class='btn rbtn1'
-		  ontouchstart=changeWeapon(1)
-		  onclick=changeWeapon(1)
-		  ></span>
-		<span class='btn rbtn2'></span>
-		<span class='btn rbtn3'></span>
-	  </div>
-	 
-	</div>
-	
-	<div id=mashroom_img></div>
-	
-	<canvas class=c3></canvas>
-	<script>
-init = function(){
-if(window.ontouchstart !== null){
-  document.body.querySelector("#gameUI #controller").style.display = "none"
-  document.body.querySelector("#gameUI #controller~span").style.display = "none"
-}
-dpr = 3//devicePixelRatio
-pi = Math.PI
-pi2 = pi*2
-pid2 = pi/2
 
-c1 = document.querySelector('.c1')
-c2 = document.querySelector('.c2')
-c3 = document.querySelector('.c3')
+<body>
 
-W = c1.width = c2.width = c3.width = innerWidth*dpr
-H = c1.height = c2.height = c3.height = innerHeight*dpr
-
-w = innerWidth
-h = innerHeight
-
-ctx = c1.getContext('2d')
-fx = c2.getContext('2d')
-mx = c3.getContext('2d')
-
-ctx.fillStyle = 'white'
-ctx.fillRect(0,0,W,H)
-
-game.mainColor=colors[gameUI.className.split('-')[0]]
+    <div id="__site_wrapper">
+        <header class="header">
+            <div class="container">
+                <div class="header__inner">
+                    <div class="logo">
+                        <a href="/">
+                            <img src="assets/logo.svg" />
+                        </a>
+                    </div>
+                    <nav class="header__menu">
+                        <div class="header__menu-close">
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <a href="#graph">График</a>
+                        <a href="#calculation-methodology">Методология расчета</a>
+                        <a href="#interactive-map">Интерактивная карта</a>
+                        <a href="#popular-goods">Популярные товары</a>
+                        <a href="#insights">Инсайты</a>
+                        <a href="#news">Новости</a>
+                    </nav>
+                    <div class="header__burger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="main">
 
 
-anim()
-}
-
-document.onkeydown = e=>{
-  if(e.code == "ArrowRight")game.ctrl.x = 90;
-  if(e.code == "ArrowLeft")game.ctrl.x = -90;
-  if(e.code == "ArrowUp")game.ctrl.shot = true;
-}
-document.onkeyup = e=>{
-  if(e.code == "ArrowRight")game.ctrl.x = 0;
-  if(e.code == "ArrowLeft")game.ctrl.x = 0;
-  if(e.code == "ArrowUp")game.ctrl.shot = false;
-}
-
-ctrl = document.querySelector('#controller')
-c = ctrl.nextSibling
-
-ctrl.ontouchstart = e=>{
-  x=e.changedTouches[0].clientX
-  y=e.changedTouches[0].clientY
-  
-  if(x<w/2-90){
-	x=w/2-90
-  }else if(x>w/2+90){
-	x=w/2+90
-  }else{
-	x=e.changedTouches[0].clientX
-  }
-  
-  if(y<h-110){
-	y=h-110
-  }else{
-	y=e.changedTouches[0].clientY
-  }
-  
-  if(y<h-85){
-	game.ctrl.shot = true
-	c.style.borderColor='#f80'
-	c.style.backgroundColor='#f80'
-  }else{
-	game.ctrl.shot = false
-	c.style.borderColor='#0ff'
-	c.style.backgroundColor='transparent'
-  }
-  
-  game.ctrl.x=x-w/2
-  
-  c.style.left = x+'px'
-  c.style.top = y+'px'
-}
-ctrl.ontouchmove = e=>{
-  c = ctrl.nextSibling
-  x=e.changedTouches[0].clientX
-  y=e.changedTouches[0].clientY
-  
-  if(x<w/2-90){
-	x=w/2-90
-  }else if(x>w/2+90){
-	x=w/2+90
-  }else{
-	x=e.changedTouches[0].clientX
-  }
-  
-  if(y<h-110){
-	y=h-110
-  }else{
-	y=e.changedTouches[0].clientY
-  }
-  
-  if(y<h-85){
-	game.ctrl.shot = true
-	c.style.borderColor='#f80'
-	c.style.backgroundColor='#f80'
-  }else{
-	game.ctrl.shot = false
-	c.style.borderColor='#0ff'
-	c.style.backgroundColor='transparent'
-  }
-  
-  game.ctrl.x=x-w/2
-  
-  c.style.left = x+'px'
-  c.style.top = y+'px'
-}
-ctrl.ontouchend = e=>{
-  c = ctrl.nextSibling
-  x=e.changedTouches[0].clientX
-  y=e.changedTouches[0].clientY
-  
-  if(x<w/2-110){
-	x=w/2-110
-  }else if(x>w/2+110){
-	x=w/2+110
-  }else{
-	x=e.changedTouches[0].clientX
-  }
-  
-  game.ctrl.shot = false
-  c.style.borderColor='#0ff'
-  c.style.backgroundColor='transparent'
-  
-  game.ctrl.x=0
-  
-  c.style.left = w/2+'px'
-  c.style.top = h-47+'px'
-}
 
 
-function drawShape(ctx,shape,x,y){
-  if(shape.type=='circle'){
-	ctx.beginPath()
-	ctx.arc(x,y,shape.radius,0,pi2)
-	ctx.closePath()
-	ctx.fill()
-	ctx.stroke()
-  }
-  
-  
-  
-  if(shape.type=='circleSegment'){
-	ctx.beginPath()
-	ctx.moveTo(x,y)
-	ctx.arc(x,y,shape.radius,shape.start,shape.end)
-	ctx.closePath()
-	ctx.fill()
-	ctx.stroke()
-  }
-  
-  
-  
-  if(shape.type=='rect'){
-	let r = Math.hypot(shape.width,shape.height) / 2,
-	dx = shape.width/2
-	dy = shape.height/2
-	
-	atan = Math.atan2(dy,dx)
-	
-	d = shape.direction
-	
-	ctx.beginPath()
-	ctx.moveTo(x+r*Math.cos(atan+d),y+r*Math.sin(atan+d))
-	ctx.lineTo(x+r*Math.cos(pi-atan+d),y+r*Math.sin(pi-atan+d))
-	ctx.lineTo(x+r*Math.cos(pi+atan+d),y+r*Math.sin(pi+atan+d))
-	ctx.lineTo(x+r*Math.cos(-atan+d),y+r*Math.sin(-atan+d))
-	ctx.closePath()
-	ctx.fill()
-	ctx.stroke()
-  }
-  
-  
-  
-  if(shape.type=='triangle'){
-	let r = Math.hypot(shape.width,shape.height) / 2,
-	dx = shape.width/2
-	dy = shape.height/2
-	
-	atan = Math.atan2(dy,dx)
-	
-	d = shape.direction
-	
-	ctx.beginPath()
-	ctx.moveTo(x+dx*Math.cos(d),y+dx*Math.sin(d))
-	ctx.lineTo(x+r*Math.cos(pi-atan+d),y+r*Math.sin(pi-atan+d))
-	ctx.lineTo(x+r*Math.cos(pi+atan+d),y+r*Math.sin(pi+atan+d))
 
-	ctx.closePath()
-	ctx.fill()
-	ctx.stroke()
-  }
-  
-  
-  
-  if(shape.type=='line'){
-	ctx.beginPath()
-	ctx.moveTo(x,y)
-	ctx.lineTo(
-x+shape.radius*Math.cos(shape.direction),
-y+shape.radius*Math.sin(shape.direction))
-	ctx.closePath()
-	ctx.stroke()
-  }
-  
-  
-  
-  if(shape.type=='star'){
-	ctx.beginPath()
-	ctx.moveTo(x+shape.maxr*Math.cos(shape.direction),
-y+shape.maxr*Math.sin(shape.direction))
-	for(let i = 0; i < shape.corns; i++){
-	
-	ctx.lineTo(
-x+shape.maxr*Math.cos(shape.direction+pi2/shape.corns*i),
-y+shape.maxr*Math.sin(shape.direction+pi2/shape.corns*i))
-	ctx.lineTo(
-x+shape.minr*Math.cos(shape.direction+pi2/shape.corns*i+pi/shape.corns),
-y+shape.minr*Math.sin(shape.direction+pi2/shape.corns*i+pi/shape.corns))
-	
-	
-	}
-	ctx.closePath()
-	ctx.fill()
-	ctx.stroke()
-  }
-  
-  
-  
-  if(shape.type=='polygon'){
-	ctx.beginPath()
-	ctx.moveTo(x+shape.radius*Math.cos(shape.direction),
-y+shape.radius*Math.sin(shape.direction))
-	for(let i = 0; i < shape.corns; i++){
-	
-	ctx.lineTo(
-x+shape.radius*Math.cos(shape.direction+pi2/shape.corns*i),
-y+shape.radius*Math.sin(shape.direction+pi2/shape.corns*i))
-	
-	}
-	ctx.closePath()
-	ctx.fill()
-	ctx.stroke()
-  }
-}
+            <section class="hero">
+                <div class="container">
+                    <div class="hero__inner">
+                        <div class="hero__main">
+                            <h1 class="hero__title">
+                                Ozon<br>
+                                E-commerce
+                            </h1>
+                            <p class="h1 hero__title">Index</p>
+                            <p class="hero__subtitle">
+                                Онлайн-покупки всё чаще входят в привычку россиян. Проверили на цифрах Ozon, как меняется количество наиболее активных клиентов e-commerce в разных регионах России.
+                            </p>
+                            <br><!-- разделитель чтоб index не прилип справа -->
+                            <p class="hero__index">10,7</p>
+                        </div>
+                        <div class="hero__assets">
+                            <img src="/assets/ref_hero.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="context" id="graph">
+                <div class="container">
+                    <div class="context__inner">
+                        <div class="context__assets">
+                            <img src="/assets/ref_context.svg" alt="">
+                        </div>
+                        <div class="context__main">
+                            <h2 class="context__title">
+                                График<br>
+                                о самом<br>
+                                главном
+                            </h2>
+                            <p class="context__subtitle">
+                                Индекс Ozon показывает, насколько глубоко покупки в интернете проникают в повседневную жизнь людей
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="graph" id="graph">
+                <div class="container">
+                    <div class="main-chart">
+                        <canvas id="mainChart"></canvas>
+                    </div>  
+                    <div id="legend-container">
+                        
+                    </div>
+                </div>
+            </section>
+            <section class="calculate" id="calculation-methodology">
+                <div class="container">
+                    <h2 class="calculate__title">Как считается индекс</h2>
+                    <div class="calculate__inner">
+                        <div class="calculate__assets">
+                            <img src="/assets/ref_calculate.svg" alt="">
+                        </div>
+                        <div class="calculate__main">
+                            <div class="calculate__text">
+                                Для расчёта индекса мы выбрали панель настоящих любителей онлайн-шоппинга, определили ключевые метрики их потребления — траты и количество заказов на клиента — и умножили на коэффициент
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab">
+                        <div class="tab__handler --active">Прочитать всю методологию</div>
+                        <div class="tab__inner">
+                            <div class="tab__text">
+                                <p>
+                                    Для расчёта индекса вывели три переменных, которые характеризуют «продвинутого» онлайн-покупателя. Важно, что каждая переменная рассчитывается в отношении панели (например, GMV), под регион, за определённый месяц и под клиентами имеется в виду панель
+                                </p>
+                                <p>
+                                    Для расчёта индекса вывели три переменных, которые характеризуют «продвинутого» онлайн-покупателя. Важно, что каждая переменная рассчитывается в отношении панели (например, GMV), под регион, за определённый месяц и под клиентами имеется в виду панель
+                                </p>
+                            </div>
+                            <div class="tab__cards">
+                                <div class="card">
+                                    <div class="card__body">
+                                        <div class="card__header">
+                                            <img src="/assets/ico_user.svg" alt="">
+                                            <h3>
+                                                GMV на пользователя
+                                            </h3>
+                                        </div>
+                                        <div class="card__content">
+                                            Чем больше этот показатель, тем больше тратит один покупатель за заказ, тем он продвинутей. Между регионами разница в этих показателях зависит от среднего дохода и от того, какая доля трат приходится на онлайн
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card__body">
+                                        <div class="card__header">
+                                            <img src="/assets/ico_bag.svg" alt="">
+                                            <h3>
+                                                Частота заказов
+                                            </h3>
+                                        </div>
+                                        <div class="card__content">
+                                            Онлайн-торговля стремимся повысить частоту заказов, поэтому мы считаем этот показатель также ключевым для индекса
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card__body">
+                                        <div class="card__header">
+                                            <img src="/assets/ico_graph.svg" alt="">
+                                            <h3>
+                                                Рост панели от базового месяца
+                                            </h3>
+                                        </div>
+                                        <div class="card__content">
+                                            Показывает прирост базы «продвинутых» покупателей и, таким образом, эволюцию e-commerce в регионе/по стране
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab__assets">
+                                <img src="/assets/ref_calculate_looper.svg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="map" id="interactive-map">
+                <div class="container">
+                    <h2 class="map__title">
+                        Интерактивная карта
+                    </h2>
+                    <div class="map__placeholder">
 
-function mashroom(){
-  all = all.filter(a=>!(a instanceof Mashroom))
-  
-  mashroom_img.style.opacity = 0.002
-  document.body.style.animation =
-    'mashroom 30s linear'
-  mashroom_img.style.animation =
-    'scale 1s infinite'
-  game.mashroom = true
-  document.body.onanimationend = ()=>{
-	mashroom_img.style.opacity = 0
-	mashroom_img.style.animation = 'none'
-	document.body.style.animation = 'none'
-	game.mashroom = false
-}
-}
+                    </div>
+                </div>
+            </section>
+            <section class="goods" id="popular-goods">
+                <div class="container">
+                    <div class="goods__title-inner">
+                        <div class="goods__main">
+                            <h2 class="goods__title">
+                                Cамые популярные товары
+                            </h2>
+                            <p class="goods__subtitle">
+                                Рассказываем, какие товары пользуются наибольшей популярностью на маркетплейсах. Как правило, это категория FMCG — товары частотного спроса, за которыми возвращаются чаще всего. Что ещё раз демонстрирует тренд на перенос рутинных покупок в онлайн
+                            </p>
+                        </div>
+                        <div class="goods__assets">
+                            <img src="/assets/ref_goods.svg" alt="">
+                        </div>
+                    </div>
+                    <div class="goods__filters __placeholder"></div>
+                    <!-- <div class="goods__cards-outer"> -->
+                        <div class="goods__cards">
+                            <div class="card">
+                                <img src="/assets/ref_goods1.jpg" alt="">
+                                <div class="card__body">
+                                    <p>
+                                        Пакет Ozon Жираф 550x550
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="/assets/ref_goods2.jpg" alt="">
+                                <div class="card__body">
+                                    <p>
+                                        Банан, 5 шт
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="/assets/ref_goods3.jpg" alt="">
+                                <div class="card__body">
+                                    <p>
+                                        Огурцы Луховицкие, 600 г
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="/assets/ref_goods4.jpg" alt="">
+                                <div class="card__body">
+                                    <p>
+                                        Томаты сладкие «Бархатный мёд»
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="/assets/ref_goods5.jpg" alt="">
+                                <div class="card__body">
+                                    <p>
+                                        Яйца куриные «Волжское утро»
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="goods__owl-nav">
+                            <div class="goods__owl-dots"></div>
+                        </div>
+                    <!-- </div> -->
+                </div>
+            </section>
 
-function dist(x1,x2,y1,y2){
-  return Math.hypot(x1-x2,y1-y2)
-}
-	</script>
-<script src='script.js'></script>
+
+
+            <section class="insights" id="insights">
+                <div class="container">
+                    <div class="insights__title-inner">
+                        <h2 class="insights__title">Инсайты и выводы</h2>
+                        <div class="insights__subtitle">
+                            Тут какая-то отбивка или короткий вывод из того, что написано в топе категорий, типа мини-инсайт или призыв продавать больше пакетов, потому что они хорошо расходятся.
+                        </div>
+                    </div>
+                    <!-- <div class="insights__cards-outer"> -->
+                        <div class="insights__cards-inner">
+                            <div class="card">
+                                <div class="card__body">
+                                    <div class="card__header">
+                                        <img src="/assets/ico_insight1.svg" alt="">
+                                        <h3>
+                                            Название инсайта в две строки
+                                        </h3>
+                                    </div>
+                                    <div class="news-chart">
+                                        <canvas id="newsChart"></canvas>
+                                    </div>
+                                    <div class="card__content">
+                                        В пандемию индекс Ozon, в отличие от оборота площадки, вырос несильно, а летом и вовсе вернулся на докарантинные значения. Это связано с тем, что активных покупателей, вместе с оборотом и частотой покупок, стало больше.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card__body">
+                                    <div class="card__header">
+                                        <img src="/assets/ico_insight1.svg" alt="">
+                                        <h3>
+                                            Название инсайта в две строки
+                                        </h3>
+                                    </div>
+                                    <div class="graph-__placeholder"></div>
+                                    <div class="card__content">
+                                        В пандемию индекс Ozon, в отличие от оборота площадки, вырос несильно, а летом и вовсе вернулся на докарантинные значения. Это связано с тем, что активных покупателей, вместе с оборотом и частотой покупок, стало больше.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card__body">
+                                    <div class="card__header">
+                                        <img src="/assets/ico_insight1.svg" alt="">
+                                        <h3>
+                                            Название инсайта в две строки
+                                        </h3>
+                                    </div>
+                                    <div class="graph-__placeholder"></div>
+                                    <div class="card__content">
+                                        В пандемию индекс Ozon, в отличие от оборота площадки, вырос несильно, а летом и вовсе вернулся на докарантинные значения. Это связано с тем, что активных покупателей, вместе с оборотом и частотой покупок, стало больше.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card__body">
+                                    <div class="card__header">
+                                        <img src="/assets/ico_insight1.svg" alt="">
+                                        <h3>
+                                            Название инсайта в две строки
+                                        </h3>
+                                    </div>
+                                    <div class="graph-__placeholder"></div>
+                                    <div class="card__content">
+                                        В пандемию индекс Ozon, в отличие от оборота площадки, вырос несильно, а летом и вовсе вернулся на докарантинные значения. Это связано с тем, что активных покупателей, вместе с оборотом и частотой покупок, стало больше.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="insights__owl-nav">
+                            <div class="insights__owl-dots"></div>
+                        </div>
+                    <!-- </div> -->
+                </div>
+            </section>
+
+
+
+            <section class="news" id="news">
+                <div class="container">
+                    <h2 class="news__title">Новости и статьи</h2>
+                    <div class="news__cards-outer">
+                        <div class="news__cards-inner">
+                            <div class="card">
+                                <div class="card__body">
+                                    <div class="card__header">
+                                        <h3>
+                                            Пиковый показатель индекса связан с пандемийными ограничений
+                                        </h3>
+                                    </div>
+                                    <div class="card__content --align-self-end">
+                                        21 июля 2021
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card__body">
+                                    <div class="card__header">
+                                        <h3>
+                                            Пиковый показатель индекса связан с пандемийными ограничений
+                                        </h3>
+                                    </div>
+                                    <div class="card__content --align-self-end">
+                                        21 июля 2021
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card__body">
+                                    <div class="card__header">
+                                        <h3>
+                                            Пиковый показатель индекса связан с пандемийными ограничений
+                                        </h3>
+                                    </div>
+                                    <div class="card__content --align-self-end">
+                                        21 июля 2021
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card__body">
+                                    <div class="card__header">
+                                        <h3>
+                                            Пиковый показатель индекса связан с пандемийными ограничений
+                                        </h3>
+                                    </div>
+                                    <div class="card__content --align-self-end">
+                                        21 июля 2021
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card__body">
+                                    <div class="card__header">
+                                        <h3>
+                                            Пиковый показатель индекса связан с пандемийными ограничений
+                                        </h3>
+                                    </div>
+                                    <div class="card__content --align-self-end">
+                                        21 июля 2021
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="news__owl-nav">
+                            <div class="news__owl-dots"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bottom-picture">
+                <img src="/assets/ref_bottom.svg" alt="">
+            </section>
+
+
+
+
+        </main>
+        <footer class="footer">
+            <div class="container">
+                <div class="footer__inner">
+                    <div class="logo">
+                        <a href="/">
+                            <img src="assets/logo.svg" />
+                        </a>
+                    </div>
+                    <div class="footer__socials">
+                        
+                        <a href="" class="social">
+                            <img src="/assets/ico_social-fb.svg" alt="">
+                        </a>
+                        <a href="" class="social">
+                            <img src="/assets/ico_social-tg.svg" alt="">
+                        </a>
+                        <a href="" class="social">
+                            <img src="/assets/ico_social-tw.svg" alt="">
+                        </a>
+                        <a href="" class="social">
+                            <img src="/assets/ico_social-vk.svg" alt="">
+                        </a>
+                        <a href="" class="social">
+                            <img src="/assets/ico_social-inst.svg" alt="">
+                        </a>
+                        <a href="" class="social">
+                            <img src="/assets/ico_social-yt.svg" alt="">
+                        </a>
+                    </div>
+                    <div class="footer__auhtor">Сделано в <a>Spans</a></div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
 </body>
+
 </html>

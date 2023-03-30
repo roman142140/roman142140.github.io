@@ -1,0 +1,55 @@
+// эти переменние для того что бы при изменении размеров элементов слайдер оставался симметричным
+$irs-height: 50px;
+$irs-line-height: 2px;
+$irs-handle-size: 20px;
+
+@mixin irs-line {
+}
+@mixin irs-bar {
+}
+@mixin irs-handle {
+}
+@mixin irs-min-max-value {
+}
+@mixin irs-from-to-single-value {
+}
+
+// название модификатора класса "--custom" произвольное
+// при инициальзации ionRangeSlider указывается в параметр skin
+// let irs = $('.js-range').ionRangeSlider({
+//     skin: "custom",
+//     type: 'double',
+//     grid: true,
+// });
+.irs--custom {
+    $name: '.irs';
+    #{$name} {
+        height: $irs-height;
+    }
+    #{$name}-line {
+        height: $irs-line-height;
+        @include irs-line;
+    }
+    #{$name}-bar {
+        height: $irs-line-height;
+        @include irs-bar;
+    }
+    #{$name}-shadow {
+    }
+    #{$name}-handle {
+        width: $irs-handle-size;
+        height: $irs-handle-size;
+        @include irs-handle;
+    }
+    #{$name}-min,
+    #{$name}-max {
+        @include irs-min-max-value;
+    }
+    #{$name}-from,
+    #{$name}-to,
+    #{$name}-single {
+        @include irs-from-to-single-value;
+    }
+    #{$name}-grid {
+    }
+}

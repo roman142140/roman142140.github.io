@@ -245,8 +245,13 @@ select.trigger('change');</code></div>
 <input type="text" class="input js-range-bind-max" data-imask-num="" placeholder="Максимальная цена"></code></div>
                                 <div class="code-wrapper"><code>// javascript
 let irs = $('.js-range-bind').ionRangeSlider({
+    skin: 'custom',
     type: 'double',
-    grid: true,
+    grid: false,
+    min: 10_000,
+    max: 100_000,
+    drag_interval: true,
+    step: 1_000,
 });
 
 let irsInstance = irs.data('ionRangeSlider');

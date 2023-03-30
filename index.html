@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/vendors/irs/main.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <div class="page">
+        <main class="main">
+            <section class="section example">
+                <div class="container example__inner">
+                    <!--  -->
+                    <form class="form" class="example-form">
+                        <div class="example-form__row">
+                            <h4 class="example-form__row-title">JQuery + iMask</h4>
+                            <div class="example-form__actions-area">
+                                <input type="text" class="input" id="ex_1" placeholder="ИНН">
+                                <div class="input-desk"></div>
+                            </div>
+                            <div class="example-form__code-area">
+                                <div class="code-wrapper"><code>// инициализация 
+$('#ex_1').IMask({
+    mask: [
+        {
+            mask: '0000-00000-0 ',
+            type: 'ИНН юридического лица',
+        },
+        {
+            mask: '0000-000000-00',
+            type: 'ИНН физического лица',
+        },
+    ],
+});
+
+// доступ к экземпляру маски
+let element = $('#ex_1');
+let description = element.next();
+let mask = element.data('IMask'); // получение экземпляра маски
+
+element.on('input', () => {
+    let current_mask = mask.masked.currentMask;
+    let is_complete = current_mask.isComplete;
+    let current_mask_type = current_mask.type;
+    if (is_complete) {
+        description.text(current_mask_type);
+    } else {
+        description.text('');
+    }
+});</code></div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- imask-phone -->
+                    <form class="form" class="example-form">
+                        <div class="example-form__row">
+                            <h4 class="example-form__row-title">Маска номера телефона</h4>
+                            <div class="example-form__actions-area">
+                                <input type="text" class="input" data-imask-phone placeholder="Ваш номер">
+                                <div class="input-desk"></div>
+                            </div>
+                            <div class="example-form__code-area">
+                                <div class="code-wrapper"><code><input type="text" class="input" data-imask-phone placeholder="Ваш номер"></code></div>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form" class="example-form">
+                        <div class="example-form__row">
+                            <h4 class="example-form__row-title">Маска номера с динамическим placeholder</h4>
+                            <div class="example-form__actions-area">
+                                <input type="text" class="input" data-imask-phone>
+                                <div class="input-desk"></div>
+                            </div>
+                            <div class="example-form__code-area">
+                                <div class="code-wrapper"><code><input type="text" class="input" data-imask-phone></code></div>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form" class="example-form">
+                        <div class="example-form__row">
+                            <h4 class="example-form__row-title">Переопределенная маска номера телефона</h4>
+                            <div class="example-form__actions-area">
+                                <input type="text" class="input" data-imask-phone="+{375} 00 000-00-00">
+                                <div class="input-desk"></div>
+                            </div>
+                            <div class="example-form__code-area">
+                                <div class="code-wrapper"><code><input type="text" class="input" data-imask-phone="+{375} 00 000-00-00"></code></div>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form" class="example-form">
+                        <div class="example-form__row">
+                            <h4 class="example-form__row-title">Метод updateMask</h4>
+                            <div class="example-form__actions-area">
+                                <input type="text" class="input" data-imask-phone id="ex_2_input">
+                                <select class="input" id="ex_2_select">
+                                    <option value="default">Россия</option> <!-- value может быть любым не содержащим цифр для инициализации по умолчанию -->
+                                    <option value="+{375} 00 000-00-00">Белоруссия</option>
+                                </select>
+                            </div>
+                            <div class="example-form__code-area">
+                                <div class="code-wrapper"><code><!-- html -->
+<input type="text" class="input" data-imask-phone id="ex_2_input">
+<select class="input" id="ex_2_select">
+    <option value="default">Россия</option> <!-- value может быть любым не содержащим цифр для инициализации по умолчанию -->
+    <option value="+{375} 00 000-00-00">Белоруссия</option>
+</select></code></div>
+                                <div class="code-wrapper"><code>// javascript
+let element = $('#ex_2_input');
+let select = $('#ex_2_select');
+let mask = element.data('IMask');
+
+select.on('change', function () {
+    let indexSelected = this.selectedIndex,
+        currentOptionValue = this.querySelectorAll('option')[indexSelected].value;
+
+    mask.updateMask(currentOptionValue); // меняем маску
+});</code></div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- imask-num -->
+                    <form class="form" class="example-form">
+                        <div class="example-form__row">
+                            <h4 class="example-form__row-title">Маска числовых значение</h4>
+                            <div class="example-form__actions-area">
+                                <input type="text" class="input" data-imask-num placeholder="Число">
+                            </div>
+                            <div class="example-form__code-area">
+                                <div class="code-wrapper"><code><input type="text" class="input" data-imask-num placeholder="Число"></code></div>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form" class="example-form">
+                        <div class="example-form__row">
+                            <h4 class="example-form__row-title">Маска числовых значение с разделителем тысяч - пробел</h4>
+                            <div class="example-form__actions-area">
+                                <input type="text" class="input" data-imask-num=" " placeholder="Число">
+                            </div>
+                            <div class="example-form__code-area">
+                                <div class="code-wrapper"><code><input type="text" class="input" data-imask-num=" " placeholder="Число"></code></div>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form" class="example-form">
+                        <div class="example-form__row">
+                            <h4 class="example-form__row-title">Маска числовых значение с разделителем тысяч - "." и префиксом</h4>
+                            <div class="example-form__actions-area">
+                                <input type="text" class="input" data-imask-num="." data-prefix="$" placeholder="Цена">
+                            </div>
+                            <div class="example-form__code-area">
+                                <div class="code-wrapper"><code><input type="text" class="input" data-imask-num="." data-prefix="$" placeholder="Цена"></code></div>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form" class="example-form">
+                        <div class="example-form__row">
+                            <h4 class="example-form__row-title">Маска числовых значение префиксом и суфиксом</h4>
+                            <div class="example-form__actions-area">
+                                <input type="text" class="input" data-imask-num=" " data-prefix="Cумма: " data-suffix=" ₽" placeholder="Cумма">
+                            </div>
+                            <div class="example-form__code-area">
+                                <div class="code-wrapper"><code><input type="text" class="input" data-imask-num=" " data-prefix="Cумма: " data-suffix=" ₽" placeholder="Cумма"></code></div>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form" class="example-form">
+                        <div class="example-form__row">
+                            <h4 class="example-form__row-title">Маска числовых значение c динамическим суфиксом</h4>
+                            <div class="example-form__actions-area">
+                                <input type="text" class="input" data-imask-num=" " data-suffix=" арбуз| арбуза| арбузов" placeholder="Количество арбузов">
+                            </div>
+                            <div class="example-form__code-area">
+                                <div class="code-wrapper"><code><input type="text" class="input" data-imask-num=" " data-suffix=" арбуз| арбуза| арбузов" placeholder="Количество арбузов"></code></div>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form" class="example-form">
+                        <div class="example-form__row">
+                            <h4 class="example-form__row-title">Методы updateSeparator updatePrefixValue updateSuffixValue</h4>
+                            <div class="example-form__actions-area">
+                                <input type="text" class="input" data-imask-num id="ex_3_input" placeholder="Цена">
+                                <select class="input" id="ex_3_select">
+                                    <option value="ru" data-placeholder="Цена" data-separator=" " data-prefix="От " data-suffix=" рубля| рублей| рублей">ru</option>
+                                    <option value="en" data-placeholder="Price" data-separator="." data-prefix="From " data-suffix=" $">en</option>
+                                </select>
+                            </div>
+                            <div class="example-form__code-area">
+                                <div class="code-wrapper"><code><!-- html -->
+<input type="text" class="input" data-imask-num id="ex_3_input" placeholder="Цена">
+<select class="input" id="ex_3_select">
+    <option value="ru" data-placeholder="Цена" data-separator=" " data-prefix="От " data-suffix=" рубля| рублей| рублей">ru</option>
+    <option value="en" data-placeholder="Price" data-separator="." data-prefix="From " data-suffix=" $">en</option>
+</select></code></div>
+                                <div class="code-wrapper"><code>// javascript
+let element = $('#ex_3_input');
+let select = $('#ex_3_select');
+let mask = element.data('IMask');
+
+select.on('change', function () {
+    let indexSelected = this.selectedIndex;
+    let data = this.querySelectorAll('option')[indexSelected].dataset;
+
+    let { placeholder, separator, prefix, suffix } = data;
+
+    element.attr('placeholder', placeholder);
+    mask.updateSeparator(separator);
+    mask.updatePrefixValue(prefix);
+    mask.updateSuffixValue(suffix);
+});
+select.trigger('change');</code></div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- irs styles -->
+                    <form class="form" class="example-form">
+                        <h4 class="example-form__row-title">Облегченные стили для IonRangeSlider</h4>
+                        <div class="example-form__actions-area">
+                            <div class="example-form__actions-area-inputs-row">
+                                <input type="text" class="input js-range">
+                            </div>
+                        </div>
+                    </form>
+                    <!-- irs binds -->
+                    <form class="form" class="example-form">
+                        <div class="example-form__row">
+                            <h4 class="example-form__row-title">Привязка значений к ionRangeSlider</h4>
+                            <div class="example-form__actions-area">
+                                <input type="text" class="input js-range-bind">
+                                <br>
+                                <input type="text" class="input js-range-bind-from" data-imask-num=" " data-prefix="От " data-suffix=" рубля| рублей| рублей" placeholder="Цена от">
+                                <input type="text" class="input js-range-bind-to" data-imask-num=" " data-prefix="До " data-suffix=" рубля| рублей| рублей" placeholder="Цена до">
+                                <input type="text" class="input js-range-bind-max" data-imask-num="" placeholder="Максимальная цена">
+                            </div>
+                            <div class="example-form__code-area">
+                                <div class="code-wrapper"><code><!-- html -->
+<input type="text" class="input js-range-bind">
+<input type="text" class="input js-range-bind-from" data-imask-num=" " data-prefix="От " data-suffix=" рубля| рублей| рублей" placeholder="Цена от">
+<input type="text" class="input js-range-bind-to" data-imask-num=" " data-prefix="До " data-suffix=" рубля| рублей| рублей" placeholder="Цена до">
+<input type="text" class="input js-range-bind-max" data-imask-num="" placeholder="Максимальная цена"></code></div>
+                                <div class="code-wrapper"><code>// javascript
+let irs = $('.js-range-bind').ionRangeSlider({
+    type: 'double',
+    grid: true,
+});
+
+let irsInstance = irs.data('ionRangeSlider');
+irsInstance.bindFromValue('.js-range-bind-from');
+irsInstance.bindToValue('.js-range-bind-to');
+irsInstance.bindValue('max', '.js-range-bind-max');</code></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+            <section class="section">
+                <div class="container">
+                    <h3 class="example-form__row-title">Ссылки для скачивания</h3>
+                    <div class="example-form__actions-area">
+                        <div class="example-form__actions-area-inputs-row">
+                            <a href="./uploads/irs.zip" class="btn" download>Скачать файлы стилей для irs</a>
+                            <a href="./uploads/js.zip" class="btn" download>Скачать скрипты</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <!-- .js-range -->
+    <!------------------>
+    <!-- demo scripts -->
+    <!------------------>
+    <!-- highlight -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/tokyo-night-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>
+        function htmlDecode(input) {
+            const textArea = document.createElement("textarea");
+            textArea.innerHTML = input;
+            return textArea.value;
+        }
+        function htmlEncode(input) {
+            const textArea = document.createElement("textarea");
+            textArea.innerText = input;
+            return textArea.innerHTML.split("<br>").join("\n");
+        }
+        document.querySelectorAll('code').forEach((el) => {
+            // el.innerHTML = htmlEncode(el.innerHTML)
+            el.innerHTML = htmlEncode(el.innerHTML)
+            hljs.highlightElement(el);
+        });
+    </script>
+    <!-- highlight end -->
+    <!-- simplebar -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.css" />
+    <script src="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.min.js"></script>
+    <script>
+        var els = document.querySelectorAll('.code-wrapper');
+        els.forEach(el => {
+            el.setAttribute('data-simplebar', true);
+        })
+    </script>
+    <!-- simplebar end -->
+    <!------------->
+    <!-- scripts -->
+    <!------------->
+    <script src="./js/vendors/jquery.min.js"></script>
+    <script src="./js/vendors/imask.min.js"></script>
+    <script src="./js/vendors/ion.rangeSlider.min.js"></script>
+    <script src="./js/common.js"></script>
+    <script src="./js/script.js"></script>
+</body>
+
+</html>
